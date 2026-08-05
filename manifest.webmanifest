@@ -1,8 +1,9 @@
 {
-  "name": "Voyana",
+  "name": "Voyana 5.0",
   "short_name": "Voyana",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#eef4f8",
-  "theme_color": "#0b3558"
+  "theme_color": "#0b3558",
+  "description": "AI travel assistant that compares journeys, not just flights."
 }
