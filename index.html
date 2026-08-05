@@ -1,27 +1,198 @@
-<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b3558"><link rel="manifest" href="manifest.webmanifest"><title>Voyana v2.0</title>
-<style>body{font-family:Arial,sans-serif;background:#eef4f8;margin:0;padding:14px;color:#162531}.app{max-width:820px;margin:auto}header{background:#0b3558;color:#fff;padding:20px;border-radius:0 0 20px 20px}.card,.offer{background:#fff;padding:16px;margin:12px 0;border-radius:16px;box-shadow:0 4px 14px #0001}label{display:block;font-weight:bold;margin-top:10px}input,select{width:100%;padding:12px;margin-top:6px;border:1px solid #bbc8d0;border-radius:10px;font-size:16px;box-sizing:border-box}button{padding:12px;border:0;border-radius:10px;font-weight:bold;background:#0b3558;color:#fff;margin-top:10px}.full{width:100%}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.hidden{display:none}.status{background:#fff7d6}.error{background:#ffe7e7}.lang button{background:#ffffff22;margin-right:6px}.lang .active{background:#f2c14e;color:#17232b}.suggest{position:relative}.list{position:absolute;z-index:10;background:white;border:1px solid #ccd6dd;border-radius:10px;width:100%;display:none;max-height:220px;overflow:auto}.item{padding:10px;border-bottom:1px solid #edf1f3}.price{font-size:28px;font-weight:bold;color:#0b3558}.details{display:none}.offer.open .details{display:block}.segment{background:#f5f8fa;border-radius:10px;padding:10px;margin-top:8px}.small{font-size:12px;color:#60717c}@media(max-width:520px){.grid{grid-template-columns:1fr}}</style></head>
-<body><div class="app"><header><h1>🧭 Voyana v2.0</h1><div id="tag">Planuj podróż, nie tylko lot.</div><div class="lang"><button data-l="pl" class="active">PL</button><button data-l="en">EN</button><button data-l="es">ES</button></div></header>
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b3558">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Voyana">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Voyana v2.1</title>
+<style>
+:root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:#162531;background:#eef4f8}
+*{box-sizing:border-box}
+body{margin:0;padding:env(safe-area-inset-top) 14px env(safe-area-inset-bottom)}
+.app{max-width:880px;margin:auto}
+header{background:linear-gradient(135deg,#0b3558,#176985);color:white;padding:22px;border-radius:0 0 24px 24px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand h1{margin:0}
+.version{margin-left:auto;background:#ffffff22;padding:6px 9px;border-radius:999px;font-size:12px}
+.card,.airport-card{background:white;padding:16px;margin:12px 0;border-radius:16px;box-shadow:0 4px 14px rgba(0,0,0,.06)}
+label{display:block;font-weight:750;margin-top:10px}
+input,select{width:100%;padding:12px;margin-top:6px;border:1px solid #bbc8d0;border-radius:10px;font-size:16px;background:white}
+button{width:100%;padding:13px;border:0;border-radius:10px;font-weight:800;margin-top:10px;background:#0b3558;color:white}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hidden{display:none}
+.status{background:#fff7d6}
+.error{background:#ffe7e7}
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.stat{background:#f1f6f9;border-radius:12px;padding:12px;text-align:center}
+.stat b{display:block;font-size:20px;color:#0b3558}
+.airport-card.best{border:2px solid #4a9f68;background:#f1faf3}
+.price{font-size:28px;font-weight:850;color:#0b3558}
+.badge{display:inline-block;background:#edf3f6;border-radius:999px;padding:5px 8px;font-size:12px;margin:3px}
+.details{display:none}
+.airport-card.open .details{display:block}
+.segment{background:#f5f8fa;border-radius:10px;padding:10px;margin-top:8px}
+.small{font-size:12px;color:#60717c;line-height:1.45}
+.recommendation{background:#eaf6ed;border:1px solid #8dc59d}
+@media(max-width:620px){.grid,.summary{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="brand"><div><h1>🧭 Voyana</h1><div>Smart Compare</div></div><div class="version">v2.1</div></div></header>
+
 <div class="card">
-<label id="fromL">Skąd podróżujesz?</label><div class="suggest"><input id="from" value="Newcastle"><div id="fromList" class="list"></div></div>
-<label id="toL">Dokąd chcesz lecieć?</label><div class="suggest"><input id="to" placeholder="Np. Turcja, Antalya, Warszawa"><div id="toList" class="list"></div></div>
-<div class="grid"><div><label id="depL">Data wylotu</label><input id="dep" type="date"></div><div><label id="retL">Data powrotu</label><input id="ret" type="date"></div></div>
-<div class="grid"><div><label id="adL">Dorośli</label><input id="adults" type="number" min="1" value="1"></div><div><label id="clL">Klasa</label><select id="cabin"><option value="economy">Economy</option><option value="business">Business</option></select></div></div>
-<button id="search" class="full">Szukaj lotów</button></div>
-<div id="status" class="card status hidden"></div><div id="error" class="card error hidden"></div><div id="results"></div></div>
+<label>Miasto startowe</label>
+<select id="home">
+<option value="newcastle">Newcastle</option>
+</select>
+
+<label>Dokąd chcesz lecieć?</label>
+<select id="destination">
+<option value="AYT">Antalya</option>
+<option value="IST">Stambuł</option>
+<option value="WAW">Warszawa</option>
+<option value="KRK">Kraków</option>
+<option value="MNL">Manila</option>
+<option value="CEB">Cebu</option>
+<option value="PPS">Puerto Princesa</option>
+<option value="AGP">Malaga</option>
+</select>
+
+<div class="grid">
+<div><label>Data wylotu</label><input id="depart" type="date"></div>
+<div><label>Data powrotu</label><input id="returnDate" type="date"></div>
+</div>
+
+<div class="grid">
+<div><label>Dorośli</label><input id="adults" type="number" min="1" max="9" value="1"></div>
+<div><label>Klasa</label><select id="cabin"><option value="economy">Economy</option><option value="business">Business</option></select></div>
+</div>
+
+<button id="compare">Porównaj lotniska</button>
+</div>
+
+<div id="status" class="card status hidden"></div>
+<div id="error" class="card error hidden"></div>
+<div id="recommendation" class="card recommendation hidden"></div>
+<div id="summary" class="card hidden"></div>
+<div id="results"></div>
+
+<div class="card small">
+Voyana v2.1 porównuje ceny lotów z kilku lotnisk. Koszt dojazdu, parking i pełny czas od domu dodamy w następnym etapie.
+</div>
+</div>
+
 <script>
-const API='https://voyana-api.fcczaplin.workers.dev/search', $=i=>document.getElementById(i);
-const P=[['Newcastle','United Kingdom','NCL',['newcastle upon tyne']],['Manchester','United Kingdom','MAN',[]],['Edinburgh','United Kingdom','EDI',[]],['London Heathrow','United Kingdom','LHR',['london','heathrow']],['Warszawa','Polska','WAW',['warsaw','polska','poland']],['Kraków','Polska','KRK',['krakow']],['Gdańsk','Polska','GDN',['gdansk']],['Antalya','Turcja','AYT',['turcja','turkey']],['Stambuł','Turcja','IST',['istanbul']],['Stambuł Sabiha Gökçen','Turcja','SAW',['sabiha']],['Bodrum','Turcja','BJV',[]],['Izmir','Turcja','ADB',[]],['Manila','Filipiny','MNL',['filipiny','philippines']],['Cebu','Filipiny','CEB',[]],['Puerto Princesa','Filipiny','PPS',['palawan']],['Malaga','Hiszpania','AGP',['hiszpania','spain']],['Alicante','Hiszpania','ALC',[]],['Barcelona','Hiszpania','BCN',[]],['Tokio Haneda','Japonia','HND',['tokio','tokyo','japonia','japan']]];
-const T={pl:{tag:'Planuj podróż, nie tylko lot.',from:'Skąd podróżujesz?',to:'Dokąd chcesz lecieć?',dep:'Data wylotu',ret:'Data powrotu',ad:'Dorośli',cl:'Klasa',s:'Szukaj lotów',load:'Voyana pobiera oferty…',none:'Brak ofert.',err:'Błąd',found:'Znaleziono'},en:{tag:'Plan the journey, not just the flight.',from:'Where are you travelling from?',to:'Where do you want to fly?',dep:'Departure date',ret:'Return date',ad:'Adults',cl:'Cabin class',s:'Search flights',load:'Voyana is fetching offers…',none:'No offers found.',err:'Error',found:'Found'},es:{tag:'Planifica el viaje, no solo el vuelo.',from:'¿Desde dónde viajas?',to:'¿A dónde quieres volar?',dep:'Fecha de salida',ret:'Fecha de regreso',ad:'Adultos',cl:'Clase',s:'Buscar vuelos',load:'Voyana está buscando ofertas…',none:'No se encontraron ofertas.',err:'Error',found:'Encontradas'}};
-let lang=localStorage.getItem('lang')||'pl';
-function apply(){let t=T[lang];$('tag').textContent=t.tag;$('fromL').textContent=t.from;$('toL').textContent=t.to;$('depL').textContent=t.dep;$('retL').textContent=t.ret;$('adL').textContent=t.ad;$('clL').textContent=t.cl;$('search').textContent=t.s;document.querySelectorAll('.lang button').forEach(b=>b.classList.toggle('active',b.dataset.l===lang))}
-document.querySelectorAll('.lang button').forEach(b=>b.onclick=()=>{lang=b.dataset.l;localStorage.setItem('lang',lang);apply()});apply();
-const norm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-function setup(inpId,listId){let inp=$(inpId),list=$(listId);inp.addEventListener('input',()=>{let q=norm(inp.value.trim());list.innerHTML='';if(q.length<2){list.style.display='none';return}let f=P.filter(x=>norm(x[0]).includes(q)||norm(x[1]).includes(q)||x[3].some(a=>norm(a).includes(q))).slice(0,8);f.forEach(x=>{let d=document.createElement('div');d.className='item';d.textContent=`${x[0]}, ${x[1]} (${x[2]})`;d.onclick=()=>{inp.value=x[0];inp.dataset.code=x[2];list.style.display='none'};list.appendChild(d)});list.style.display=f.length?'block':'none'})}
-setup('from','fromList');setup('to','toList');
-function code(inp){if(inp.dataset.code)return inp.dataset.code;let q=norm(inp.value.trim()),x=P.find(p=>norm(p[0])===q||norm(p[1])===q||p[3].some(a=>norm(a)===q));return x?x[2]:''}
-const iso=d=>d.toISOString().slice(0,10);let d=new Date();d.setDate(d.getDate()+30);let r=new Date(d);r.setDate(r.getDate()+10);$('dep').value=iso(d);$('ret').value=iso(r);
-function fmt(s){return s?new Date(s).toLocaleString(lang==='pl'?'pl-PL':lang==='es'?'es-ES':'en-GB',{dateStyle:'medium',timeStyle:'short'}):'—'}
-function render(data){$('results').innerHTML='';if(!data.offers||!data.offers.length){$('results').innerHTML=`<div class="card">${T[lang].none}</div>`;return}data.offers.forEach(o=>{let el=document.createElement('div');el.className='offer';let det='';(o.slices||[]).forEach(s=>det+=`<div class="segment"><b>${s.origin} → ${s.destination}</b><br>${fmt(s.departure_at)} – ${fmt(s.arrival_at)}<br>${s.connections} connections • ${s.duration||''}</div>`);el.innerHTML=`<h3>${o.airline||''}</h3><div class="price">${o.total_currency} ${o.total_amount}</div><div class="small">Tap/click for details</div><div class="details">${det}</div>`;el.onclick=()=>el.classList.toggle('open');$('results').appendChild(el)})}
-$('search').onclick=async()=>{let origin=code($('from')),destination=code($('to'));if(!origin||!destination){$('error').textContent=T[lang].err+': choose a city from suggestions.';$('error').classList.remove('hidden');return}$('error').classList.add('hidden');$('status').textContent=T[lang].load;$('status').classList.remove('hidden');$('results').innerHTML='';try{let res=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({origin,destination,departure_date:$('dep').value,return_date:$('ret').value||null,adults:+$('adults').value||1,cabin_class:$('cabin').value})}),data=await res.json();if(!res.ok)throw new Error(data.error||'API error');$('status').textContent=T[lang].found+' '+(data.results_count||0);render(data)}catch(e){$('status').classList.add('hidden');$('error').textContent=T[lang].err+': '+e.message;$('error').classList.remove('hidden')}};
-if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');
-</script></body></html>
+const API='https://voyana-api.fcczaplin.workers.dev/smart-compare';
+const $=id=>document.getElementById(id);
+
+const airportGroups={
+  newcastle:['NCL','MAN','EDI','LBA','BHX','LHR','LGW']
+};
+
+const airportNames={
+  NCL:'Newcastle',MAN:'Manchester',EDI:'Edinburgh',LBA:'Leeds Bradford',
+  BHX:'Birmingham',LHR:'London Heathrow',LGW:'London Gatwick'
+};
+
+const iso=d=>d.toISOString().slice(0,10);
+let d=new Date();d.setDate(d.getDate()+30);
+let r=new Date(d);r.setDate(r.getDate()+10);
+$('depart').value=iso(d);$('returnDate').value=iso(r);
+
+function fmtDate(s){
+  return s?new Date(s).toLocaleString('pl-PL',{dateStyle:'medium',timeStyle:'short'}):'—';
+}
+
+function render(data){
+  const box=$('results');
+  box.innerHTML='';
+
+  const rows=(data.cheapest_by_airport||[])
+    .filter(x=>x.cheapest_offer)
+    .sort((a,b)=>a.cheapest_offer.total_amount-b.cheapest_offer.total_amount);
+
+  if(!rows.length){
+    box.innerHTML='<div class="card">Brak ofert dla porównywanych lotnisk.</div>';
+    return;
+  }
+
+  const best=rows[0];
+  const home=rows.find(x=>x.origin==='NCL');
+  let rec=`Najtańsza opcja jest z lotniska ${airportNames[best.origin]||best.origin}: ${best.cheapest_offer.total_currency} ${best.cheapest_offer.total_amount.toFixed(2)}.`;
+  if(home && best.origin!=='NCL'){
+    const saving=home.cheapest_offer.total_amount-best.cheapest_offer.total_amount;
+    if(saving>0) rec+=` Sam lot jest tańszy o ${best.cheapest_offer.total_currency} ${saving.toFixed(2)} niż z Newcastle.`;
+  }
+  $('recommendation').textContent=rec;
+  $('recommendation').classList.remove('hidden');
+
+  $('summary').innerHTML=`<div class="summary">
+    <div class="stat"><b>${data.compared_airports}</b><span>lotnisk sprawdzonych</span></div>
+    <div class="stat"><b>${data.successful_airports}</b><span>lotnisk z ofertami</span></div>
+    <div class="stat"><b>${rows.length}</b><span>najlepszych ofert</span></div>
+  </div>`;
+  $('summary').classList.remove('hidden');
+
+  rows.forEach((row,i)=>{
+    const o=row.cheapest_offer;
+    const el=document.createElement('div');
+    el.className='airport-card'+(i===0?' best':'');
+    let detail='';
+    (o.slices||[]).forEach(slice=>{
+      detail+=`<div class="segment"><b>${slice.origin} → ${slice.destination}</b><br>
+      ${fmtDate(slice.departure_at)} – ${fmtDate(slice.arrival_at)}<br>
+      ${slice.connections} przesiadek • ${slice.duration||''}</div>`;
+    });
+    el.innerHTML=`<h3>${i===0?'⭐ Najtańsza opcja':'✈️ '+(airportNames[row.origin]||row.origin)}</h3>
+      <span class="badge">${row.origin}</span>
+      <span class="badge">${o.airline||'Linia lotnicza'}</span>
+      <div class="price">${o.total_currency} ${o.total_amount.toFixed(2)}</div>
+      <div class="small">Kliknij, aby zobaczyć szczegóły</div>
+      <div class="details">${detail}</div>`;
+    el.onclick=()=>el.classList.toggle('open');
+    box.appendChild(el);
+  });
+}
+
+$('compare').onclick=async()=>{
+  $('error').classList.add('hidden');
+  $('recommendation').classList.add('hidden');
+  $('summary').classList.add('hidden');
+  $('results').innerHTML='';
+  $('status').textContent='Voyana porównuje lotniska…';
+  $('status').classList.remove('hidden');
+
+  const origins=airportGroups[$('home').value];
+
+  try{
+    const res=await fetch(API,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        origins,
+        destination:$('destination').value,
+        departure_date:$('depart').value,
+        return_date:$('returnDate').value||null,
+        adults:+$('adults').value||1,
+        cabin_class:$('cabin').value
+      })
+    });
+    const data=await res.json();
+    if(!res.ok) throw new Error(data.error||data.message||'Błąd API');
+    $('status').textContent=`Porównano ${data.compared_airports} lotnisk.`;
+    render(data);
+  }catch(e){
+    $('status').classList.add('hidden');
+    $('error').textContent='Błąd: '+e.message;
+    $('error').classList.remove('hidden');
+  }
+};
+
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
+</script>
+</body>
+</html>
