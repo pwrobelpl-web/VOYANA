@@ -1,5 +1,9 @@
-const CACHE='voyana-v2-2';
-const ASSETS=['./','./index.html','./manifest.webmanifest'];
+const CACHE='voyana-v3-0';
+const ASSETS=[
+  './','./index.html','./manifest.webmanifest',
+  './css/main.css','./js/app.js','./js/api.js','./js/data.js',
+  './js/i18n.js','./js/render.js','./js/utils.js'
+];
 self.addEventListener('install',event=>{
   self.skipWaiting();
   event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)));
